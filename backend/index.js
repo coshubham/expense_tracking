@@ -16,7 +16,7 @@ import { buildContext } from "graphql-passport";
 
 import { resolve } from 'path';
 import { connectDB } from './db/connectDB.js';
-import { ConfigurePassport, configurePassport } from './passport/passort.js';
+import { configurePassport } from './passport/passort.js';
 
 dotenv.config();
 configurePassport();
