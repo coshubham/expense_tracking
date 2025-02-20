@@ -35,16 +35,17 @@ store.on("error",(err) => console.log(err));
 
 app.use(
   session({
-    secreet: process.env.SESSION_SECRET,
-    resave: false, // this option specifies whether the session to the store o0n every request
+    secret: process.env.SESSION_SECRET, // Corrected typo here
+    resave: false,
     saveUninitialized: false,
-    cookie:{
-      maxAge: 1000 * 60 * 60 * 24 * 7,
-      httpOnly: true,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24 * 7,  // 1 week expiration time
+      httpOnly: true, 
+      secure: false,                  // Cookie cannot be accessed via JavaScript
     },
-    store:store
+    store: store,
   })
-)
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -58,7 +59,7 @@ const server = new ApolloServer({
 await server.start();
 
 app.use(
-  '/',
+  '/graphql',
   cors({
     origin: "http://localhost:3000",
     credentials: true,
@@ -72,4 +73,4 @@ app.use(
 await new Promise((resolve) => httpServer.listen({ port: 4000 }, resolve));
 await connectDB();
 
-console.log(`🚀 Server ready at http://localhost:4000/`);
+console.log(`🚀 Server ready at http://localhost:4000/graphql`);
