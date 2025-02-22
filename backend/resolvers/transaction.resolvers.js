@@ -1,14 +1,14 @@
-import Transactions from "../models/transaction.model.js";
+import Transaction from "../models/transaction.model.js";
 
 const transactionResolver ={
     Query: {
-        transaction: async (_, __, context) => {
+        transactions: async (_, __, context) => {
             try {
                 if(!context.getUser()) throw new Error("Unauthorized");
                 const userId = await context.getUser()._id;
 
-                const transaction = await Transaction.find({ userId });
-                return transaction;
+                const transactions = await Transaction.find({ userId });
+                return transactions;
             } catch (err) {
                 console.error("Error getting transaction:",err);
                 throw new Error("Error getting transactions");             
@@ -29,7 +29,7 @@ const transactionResolver ={
     Mutation: {
         createTransaction: async(_, {input},context) =>{
             try {
-                const newTransaction = new Transactions({
+                const newTransaction = new Transaction({
                     ...input,
                     userId:context.getUser()._id
                 })
@@ -42,7 +42,7 @@ const transactionResolver ={
         },
         updateTransaction: async(_, {input}) =>{
             try {
-                const updateTransaction = await Transaction.findByIdAndUpdate(input.transactionId,{new:true});
+                const updateTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input, {new:true});
                 return updateTransaction;
             } catch (err) {
                 console.error("Error update transaction:", err);
