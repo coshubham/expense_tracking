@@ -5,7 +5,6 @@ import { FaSackDollar } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 import { HiPencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
-import { formatDate } from "../utils/formatDate";
 import toast from "react-hot-toast";
 import { useMutation } from "@apollo/client";
 import { DELETE_TRANSACTION } from "../graphql/mutations/transaction.mutation";
@@ -27,7 +26,6 @@ const Card = ({ transaction }) => {
 	description = description[0]?.toUpperCase() + description.slice(1);
 	category = category[0]?.toUpperCase() + category.slice(1);
 	paymentType = paymentType[0]?.toUpperCase() + paymentType.slice(1);
-	const formattedDate = formatDate(date);
 	
 	const handleDelete = async () => {
 		try {
@@ -68,7 +66,7 @@ const Card = ({ transaction }) => {
 					Location: {location || "N/A"}
 				</p>
 				<div className='flex justify-between items-center'>
-					<p className='text-xs text-black font-bold'>{formattedDate}</p>
+					<p className='text-xs text-black font-bold'>{date}</p>
 					<img
 						src={"https://tecdn.b-cdn.net/img/new/avatars/2.webp"}
 						className='h-8 w-8 border rounded-full'
