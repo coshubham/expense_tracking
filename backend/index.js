@@ -17,9 +17,12 @@ import { buildContext } from "graphql-passport";
 
 import { connectDB } from './db/connectDB.js';
 import { configurePassport } from './passport/passort.js';
+import job from './cron.js';
 
 dotenv.config();
 configurePassport();
+
+job.start(); // Start the cron job
 
 const __dirname = path.resolve();
 const app = express();
